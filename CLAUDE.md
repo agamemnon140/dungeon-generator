@@ -32,6 +32,38 @@ npm run build      # tsc -b && vite build
 npm run vendor:srd # re-vendor SRD monster/item JSON (network)
 ```
 
+## Deployment
+
+- Repo: **https://github.com/agamemnon140/dungeon-generator**
+- Live (GitHub Pages): **https://agamemnon140.github.io/dungeon-generator/** — installable as a PWA
+  (Safari → Share → Add to Home Screen) with the red-dragon icon.
+- Pages serves the **`gh-pages` branch** (root). The available token lacks the `workflow` scope, so
+  GitHub Actions deploy isn't used; an Actions workflow is kept as
+  `docs/github-pages-deploy.yml.reference` for when a workflow-scoped token is available.
+- Vite `base` is `/dungeon-generator/` in build mode (root in dev) — keep this in sync with the repo
+  name if it ever changes, or the Pages asset paths break.
+
+**Redeploy** after changes (build in the mirror, then publish `dist` to `gh-pages` via a local
+worktree so Google Drive isn't churned):
+
+```sh
+# 1) build (from the mirror)
+cd "C:\Users\Henrique\Documents\Claude\Dungeon" && npm run build
+# 2) publish (from the Drive repo, in Git Bash)
+cd "/g/Meu Drive/Claude/dungeon"
+git worktree add -B gh-pages /c/Users/Henrique/Documents/Claude/ghpages
+git -C /c/Users/Henrique/Documents/Claude/ghpages rm -rf . >/dev/null 2>&1
+cp -r /c/Users/Henrique/Documents/Claude/Dungeon/dist/. /c/Users/Henrique/Documents/Claude/ghpages/
+touch /c/Users/Henrique/Documents/Claude/ghpages/.nojekyll
+git -C /c/Users/Henrique/Documents/Claude/ghpages add -A
+git -C /c/Users/Henrique/Documents/Claude/ghpages commit -q -m "Deploy"
+git -C /c/Users/Henrique/Documents/Claude/ghpages push origin gh-pages
+git worktree remove /c/Users/Henrique/Documents/Claude/ghpages --force
+```
+
+App icons are generated from `public/icon.svg` with `node --preserve-symlinks --preserve-symlinks-main
+scripts/make-icons.mjs` (requires `sharp`, a local-only devDependency in the mirror).
+
 ## Architecture (three seams)
 
 - **Model ↔ Renderer** — `src/domain` graph model is renderer-agnostic; `src/render` has the
