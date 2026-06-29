@@ -34,6 +34,18 @@ describe('room typing', () => {
     expect(d.graph.rooms.some((r) => r.kind === 'empty')).toBe(true);
   });
 
+  it('makes the boss the toughest fight (highest encounter budget)', () => {
+    for (const seed of ['boss-a', 'boss-b', 'boss-c', 'boss-d']) {
+      const d = generateDungeon(makeInputs({ roomCount: 18, partyLevel: 7, difficulty: 'hard', seed }));
+      const boss = d.graph.rooms.find((r) => r.id === d.graph.bossId)!;
+      const combatBudgets = d.graph.rooms
+        .filter((r) => r.kind === 'combat' && r.encounter)
+        .map((r) => r.encounter!.budget);
+      expect(boss.encounter).toBeTruthy();
+      for (const b of combatBudgets) expect(boss.encounter!.budget).toBeGreaterThan(b);
+    }
+  });
+
   it('deadly difficulty yields more combat rooms than easy on average', () => {
     const countCombat = (difficulty: 'easy' | 'deadly'): number => {
       let total = 0;

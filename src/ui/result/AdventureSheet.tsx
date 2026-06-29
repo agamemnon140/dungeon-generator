@@ -1,5 +1,5 @@
 import { useStore } from '../../state/store';
-import { SvgDiagramRenderer } from '../../render/svg/SvgDiagramRenderer';
+import { RENDERERS, DEFAULT_RENDERER_ID } from '../../render';
 import { ROOM_KIND_META } from '../../render/roomStyle';
 import { ENVIRONMENTS, OBJECTIVES } from '../../domain/inputs';
 import { NarrativeView } from './NarrativeView';
@@ -9,6 +9,8 @@ import { EncounterView } from './EncounterView';
 /** Print/PDF-friendly full adventure document (shown only when printing). */
 export function AdventureSheet() {
   const dungeon = useStore((s) => s.dungeon);
+  const rendererId = useStore((s) => s.rendererId);
+  const renderer = RENDERERS[rendererId] ?? RENDERERS[DEFAULT_RENDERER_ID];
   const { inputs, graph, narrative } = dungeon;
   const env = ENVIRONMENTS.find((o) => o.value === inputs.environment)?.label ?? inputs.environment;
   const obj = OBJECTIVES.find((o) => o.value === inputs.objective)?.label ?? inputs.objective;
@@ -26,9 +28,7 @@ export function AdventureSheet() {
 
       <NarrativeView narrative={narrative} />
 
-      <div className="sheet-map">
-        <SvgDiagramRenderer graph={graph} />
-      </div>
+      <div className="sheet-map">{renderer.render({ graph })}</div>
 
       <section className="sheet-rooms">
         {graph.rooms.map((r) => {

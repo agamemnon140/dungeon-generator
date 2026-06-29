@@ -135,6 +135,12 @@ select, input {
   border-radius: 8px;
   overflow: auto;
 }
+.map-toolbar-left { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.renderer-toggle { display: inline-flex; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+.renderer-toggle button { border: none; border-radius: 0; background: var(--panel-2); padding: 0.28em 0.7em; font-size: 12px; }
+.renderer-toggle button.active { background: var(--gold); color: #1a1a1a; font-weight: 600; }
+.renderer-toggle button + button { border-left: 1px solid var(--border); }
+
 .legend { display: flex; flex-wrap: wrap; gap: 10px; font-size: 12px; color: var(--muted); }
 .legend-item { display: inline-flex; align-items: center; gap: 5px; }
 .legend-dot { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }

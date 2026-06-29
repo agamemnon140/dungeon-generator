@@ -9,7 +9,7 @@ import { populateRooms } from './rooms';
 import { buildEncounter } from './encounters';
 import { assignHazards } from './hazards';
 
-export const GENERATOR_VERSION = '0.6.0';
+export const GENERATOR_VERSION = '0.7.0';
 
 const DIFFICULTY_TIERS: Difficulty[] = ['easy', 'medium', 'hard', 'deadly'];
 

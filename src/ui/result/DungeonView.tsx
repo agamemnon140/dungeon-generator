@@ -1,5 +1,5 @@
 import { useStore } from '../../state/store';
-import { RENDERERS, DEFAULT_RENDERER_ID } from '../../render';
+import { RENDERERS, RENDERER_LIST, DEFAULT_RENDERER_ID } from '../../render';
 import { ROOM_KIND_META } from '../../render/roomStyle';
 import type { RoomKind } from '../../domain/graph';
 import { RoomCard } from './RoomCard';
@@ -24,8 +24,10 @@ export function DungeonView() {
   const selectRoom = useStore((s) => s.selectRoom);
   const reroll = useStore((s) => s.rerollRoom);
   const saveCurrent = useStore((s) => s.saveCurrent);
+  const rendererId = useStore((s) => s.rendererId);
+  const setRenderer = useStore((s) => s.setRenderer);
 
-  const renderer = RENDERERS[DEFAULT_RENDERER_ID];
+  const renderer = RENDERERS[rendererId] ?? RENDERERS[DEFAULT_RENDERER_ID];
   const kindsPresent = [...new Set(dungeon.graph.rooms.map((r) => r.kind))];
 
   return (
@@ -43,7 +45,21 @@ export function DungeonView() {
 
       <section className="map-panel">
         <div className="map-toolbar">
-          <h2>Map</h2>
+          <div className="map-toolbar-left">
+            <h2>Map</h2>
+            <div className="renderer-toggle">
+              {RENDERER_LIST.map((r) => (
+                <button
+                  key={r.id}
+                  type="button"
+                  className={r.id === rendererId ? 'active' : ''}
+                  onClick={() => setRenderer(r.id)}
+                >
+                  {r.label}
+                </button>
+              ))}
+            </div>
+          </div>
           <Legend kinds={kindsPresent} />
         </div>
         <div className="map-canvas">

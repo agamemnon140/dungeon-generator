@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import type { DungeonInputs } from '../domain/inputs';
 import type { Dungeon } from '../domain/dungeon';
 import { generateDungeon, rerollRoom, GENERATOR_VERSION } from '../generation';
+import { DEFAULT_RENDERER_ID } from '../render';
 import { loadSaved, writeSaved, newId, type SavedGeneration } from './persistence';
 
 export const DEFAULT_INPUTS: DungeonInputs = {
@@ -36,11 +37,13 @@ interface StoreState {
   inputs: DungeonInputs;
   dungeon: Dungeon;
   selectedRoomId: string | null;
+  rendererId: string;
   saved: SavedGeneration[];
   setInput: <K extends keyof DungeonInputs>(key: K, value: DungeonInputs[K]) => void;
   randomizeSeed: () => void;
   generate: () => void;
   selectRoom: (id: string | null) => void;
+  setRenderer: (id: string) => void;
   rerollRoom: (roomId: string) => void;
   saveCurrent: () => void;
   loadGeneration: (id: string) => void;
@@ -51,12 +54,14 @@ export const useStore = create<StoreState>((set, get) => ({
   inputs: DEFAULT_INPUTS,
   dungeon: generateDungeon(DEFAULT_INPUTS),
   selectedRoomId: null,
+  rendererId: DEFAULT_RENDERER_ID,
   saved: loadSaved(),
 
   setInput: (key, value) => set((s) => ({ inputs: { ...s.inputs, [key]: value } })),
   randomizeSeed: () => set((s) => ({ inputs: { ...s.inputs, seed: makeSeed() } })),
   generate: () => set({ dungeon: generateDungeon(get().inputs), selectedRoomId: null }),
   selectRoom: (id) => set({ selectedRoomId: id }),
+  setRenderer: (id) => set({ rendererId: id }),
   rerollRoom: (roomId) => set((s) => ({ dungeon: rerollRoom(s.dungeon, roomId) })),
 
   saveCurrent: () => {
