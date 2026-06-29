@@ -1,5 +1,20 @@
 # Attribution
 
+## Monsters — Open5e
+
+Monster data is sourced from the [Open5e API](https://open5e.com/) (`/v1/monsters`), which
+aggregates openly-licensed 5e bestiaries. The data is trimmed to a combat-essential subset and
+de-duplicated by name by `scripts/vendor-srd.mjs`; the source document is recorded on each monster
+(shown in its stat block) and the full source list is in `src/data/srd/meta.json`.
+
+These documents are published under open licenses — the **Open Game License v1.0a (OGL)**, the
+**Creative Commons Attribution 4.0 license (CC-BY-4.0)**, and/or the **ORC License** — including
+the WotC SRD (5.1 / 5.2), Kobold Press's _Tome of Beasts_, _Creature Codex_, and _Tome of Beasts 2_,
+the _Black Flag SRD_ (Kobold Press), and the _Level Up: Advanced 5e_ SRD, among others. Each
+document remains the property of its respective copyright holder; this project redistributes the
+trimmed data under those same open licenses. See https://open5e.com/legal for Open5e's license
+details and the per-document license URLs returned by the API.
+
 ## D&D 5e SRD 5.1
 
 This application includes monster, item, and rules data derived from the

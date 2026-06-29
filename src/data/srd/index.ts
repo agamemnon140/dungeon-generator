@@ -36,6 +36,8 @@ export interface Monster {
   hitDice: string;
   speed: string;
   actions: MonsterAction[];
+  /** Source document (e.g. "5e Core Rules", "Tome of Beasts"). */
+  source: string;
 }
 
 interface RawMonster extends Omit<Monster, 'type'> {

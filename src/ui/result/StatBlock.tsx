@@ -28,6 +28,7 @@ export function StatBlock({ index }: { index: string }) {
           ))}
         </ul>
       )}
+      {m.source && <div className="sb-source">{m.source}</div>}
     </div>
   );
 }

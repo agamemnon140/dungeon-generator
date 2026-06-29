@@ -216,3 +216,44 @@ select, input {
 .saved-load { flex: 1; text-align: left; font-size: 12px; background: var(--panel-2); border: 1px solid var(--border); border-radius: 6px; padding: 6px 8px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .saved-delete { border: 1px solid var(--border); background: transparent; color: var(--muted); padding: 0 8px; }
 .saved-delete:hover { color: var(--combat); border-color: var(--combat); }
+.sb-source { margin-top: 6px; font-size: 11px; color: var(--muted); font-style: italic; }
+
+/* ---------- Mobile / responsive ---------- */
+@media (max-width: 760px) {
+  .app-header { flex-wrap: wrap; padding: 12px 16px; gap: 2px 10px; }
+  .app-header h1 { font-size: 19px; }
+  .app-header .tagline { font-size: 12px; }
+
+  .app-body { flex-direction: column; }
+  .sidebar {
+    width: 100%;
+    flex-shrink: 1;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    padding: 14px 16px;
+  }
+  .content { padding: 14px 16px; }
+
+  /* Compact two-column form so it doesn't fill the screen */
+  .form { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 12px; }
+  .form > .field:first-child,
+  .generate-btn { grid-column: 1 / -1; }
+
+  /* 16px controls stop iOS from auto-zooming when a field is focused */
+  select, input, button { font-size: 16px; }
+  .field input[type="range"] { height: 28px; }
+  .field-label { font-size: 12px; }
+  .generate-btn { padding: 0.7em; font-size: 16px; }
+
+  .room-list { grid-template-columns: 1fr; gap: 12px; }
+  .room-card { padding: 12px 14px; }
+  .room-card.selected { grid-column: auto; }
+
+  /* Bump the dense text up to a readable size */
+  .room-label, .content-line, .premise { font-size: 15px; }
+  .enc-monster, .encounter-math, .content-meta, .room-meta,
+  .legend, .sb-sub, .sb-line, .sb-actions, .narrative-grid dd { font-size: 13px; }
+
+  .results-toolbar button { padding: 0.5em 1em; }
+  .map-canvas svg { min-width: 0; }
+}
